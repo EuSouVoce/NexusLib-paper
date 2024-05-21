@@ -15,118 +15,94 @@ import java.util.Optional;
  */
 public enum Potion {
 
-    SPEED(PotionEffectType.SPEED),
-    SLOWNESS(PotionEffectType.SLOW),
-    HASTE(PotionEffectType.FAST_DIGGING),
-    MINING_FATIGUE(PotionEffectType.SLOW_DIGGING),
-    STRENGTH(PotionEffectType.INCREASE_DAMAGE),
-    INSTANT_HEALTH(PotionEffectType.HEAL),
-    INSTANT_DAMAGE(PotionEffectType.HARM),
-    JUMP_BOOST(PotionEffectType.JUMP),
-    NAUSEA(PotionEffectType.CONFUSION),
-    REGENERATION(PotionEffectType.REGENERATION),
-    RESISTANCE(PotionEffectType.DAMAGE_RESISTANCE),
-    FIRE_RESISTANCE(PotionEffectType.FIRE_RESISTANCE),
-    WATER_BREATHING(PotionEffectType.WATER_BREATHING),
-    INVISIBILITY(PotionEffectType.INVISIBILITY),
-    BLINDNESS(PotionEffectType.BLINDNESS),
-    NIGHT_VISION(PotionEffectType.NIGHT_VISION),
-    HUNGER(PotionEffectType.HUNGER),
-    WEAKNESS(PotionEffectType.WEAKNESS),
-    POISON(PotionEffectType.POISON),
-    WITHER(PotionEffectType.WITHER),
-    HEALTH_BOOST(PotionEffectType.HEALTH_BOOST),
-    ABSORPTION(PotionEffectType.ABSORPTION),
-    SATURATION(PotionEffectType.SATURATION),
-    GLOWING(PotionEffectType.GLOWING),
-    LEVITATION(PotionEffectType.LEVITATION),
-    LUCK(PotionEffectType.LUCK),
-    UNLUCK(PotionEffectType.UNLUCK),
-    SLOW_FALLING(PotionEffectType.SLOW_FALLING),
-    CONDUIT_POWER(PotionEffectType.CONFUSION),
-    DOLPHINS_GRACE(PotionEffectType.DOLPHINS_GRACE),
-    BAD_OMEN(PotionEffectType.BAD_OMEN),
-    HERO_OF_THE_VILLAGE(PotionEffectType.HERO_OF_THE_VILLAGE),
-    DARKNESS(PotionEffectType.DARKNESS);
+    SPEED(PotionEffectType.SPEED), SLOWNESS(PotionEffectType.SLOWNESS), HASTE(PotionEffectType.HASTE),
+    MINING_FATIGUE(PotionEffectType.MINING_FATIGUE), STRENGTH(PotionEffectType.STRENGTH), INSTANT_HEALTH(PotionEffectType.INSTANT_HEALTH),
+    INSTANT_DAMAGE(PotionEffectType.INSTANT_DAMAGE), JUMP_BOOST(PotionEffectType.JUMP_BOOST), NAUSEA(PotionEffectType.NAUSEA),
+    REGENERATION(PotionEffectType.REGENERATION), RESISTANCE(PotionEffectType.RESISTANCE), FIRE_RESISTANCE(PotionEffectType.FIRE_RESISTANCE),
+    WATER_BREATHING(PotionEffectType.WATER_BREATHING), INVISIBILITY(PotionEffectType.INVISIBILITY), BLINDNESS(PotionEffectType.BLINDNESS),
+    NIGHT_VISION(PotionEffectType.NIGHT_VISION), HUNGER(PotionEffectType.HUNGER), WEAKNESS(PotionEffectType.WEAKNESS),
+    POISON(PotionEffectType.POISON), WITHER(PotionEffectType.WITHER), HEALTH_BOOST(PotionEffectType.HEALTH_BOOST),
+    ABSORPTION(PotionEffectType.ABSORPTION), SATURATION(PotionEffectType.SATURATION), GLOWING(PotionEffectType.GLOWING),
+    LEVITATION(PotionEffectType.LEVITATION), LUCK(PotionEffectType.LUCK), UNLUCK(PotionEffectType.UNLUCK),
+    SLOW_FALLING(PotionEffectType.SLOW_FALLING), CONDUIT_POWER(PotionEffectType.CONDUIT_POWER),
+    DOLPHINS_GRACE(PotionEffectType.DOLPHINS_GRACE), BAD_OMEN(PotionEffectType.BAD_OMEN),
+    HERO_OF_THE_VILLAGE(PotionEffectType.HERO_OF_THE_VILLAGE), DARKNESS(PotionEffectType.DARKNESS);
 
     private final PotionEffectType type;
 
-    Potion(PotionEffectType type) {
-        this.type = type;
-    }
+    Potion(final PotionEffectType type) { this.type = type; }
 
-    public PotionEffectType getType() {
-        return type;
-    }
+    public PotionEffectType getType() { return this.type; }
 
-    public boolean apply(LivingEntity entity, int seconds, int amplifier) {
+    public boolean apply(final LivingEntity entity, final int seconds, final int amplifier) {
         Validate.notNull(entity, "Entity can not be null!");
-        return entity.addPotionEffect(new PotionEffect(type, seconds * 20, amplifier - 1));
+        return entity.addPotionEffect(new PotionEffect(this.type, seconds * 20, amplifier - 1));
     }
 
-    public boolean apply(LivingEntity entity, int seconds) {
+    public boolean apply(final LivingEntity entity, final int seconds) {
         Validate.notNull(entity, "Entity can not be null!");
-        return apply(entity, seconds, 1);
+        return this.apply(entity, seconds, 1);
     }
 
-    public boolean applyRaw(LivingEntity entity, int ticks, int amplifier) {
+    public boolean applyRaw(final LivingEntity entity, final int ticks, final int amplifier) {
         Validate.notNull(entity, "Entity can not be null!");
-        return entity.addPotionEffect(new PotionEffect(type, ticks, amplifier));
+        return entity.addPotionEffect(new PotionEffect(this.type, ticks, amplifier));
     }
 
-    public boolean applyRaw(LivingEntity entity, int ticks) {
+    public boolean applyRaw(final LivingEntity entity, final int ticks) {
         Validate.notNull(entity, "Entity can not be null!");
-        return entity.addPotionEffect(new PotionEffect(type, ticks, 0));
+        return entity.addPotionEffect(new PotionEffect(this.type, ticks, 0));
     }
 
-    public boolean apply(ItemStack item, int seconds, int amplifier) {
+    public boolean apply(final ItemStack item, final int seconds, final int amplifier) {
         Validate.notNull(item, "Item can not be null!");
-        if (!(item.getItemMeta() instanceof PotionMeta meta)) {
+        if (!(item.getItemMeta() instanceof final PotionMeta meta)) {
             throw new IllegalArgumentException("Item can not contain potion meta!");
         }
 
-        meta.addCustomEffect(new PotionEffect(type, seconds * 20, amplifier - 1), true);
+        meta.addCustomEffect(new PotionEffect(this.type, seconds * 20, amplifier - 1), true);
         return item.setItemMeta(meta);
     }
 
-    public boolean apply(ItemStack item, int seconds) {
+    public boolean apply(final ItemStack item, final int seconds) {
         Validate.notNull(item, "Item can not be null!");
-        return apply(item, seconds, 1);
+        return this.apply(item, seconds, 1);
     }
 
-    public boolean applyRaw(ItemStack item, int ticks, int amplifier) {
+    public boolean applyRaw(final ItemStack item, final int ticks, final int amplifier) {
         Validate.notNull(item, "Item can not be null!");
-        if (!(item.getItemMeta() instanceof PotionMeta meta)) {
+        if (!(item.getItemMeta() instanceof final PotionMeta meta)) {
             throw new IllegalArgumentException("Item can not contain potion meta!");
         }
 
-        meta.addCustomEffect(new PotionEffect(type, ticks, amplifier), true);
+        meta.addCustomEffect(new PotionEffect(this.type, ticks, amplifier), true);
         return item.setItemMeta(meta);
     }
 
-    public boolean applyRaw(ItemStack item, int ticks) {
+    public boolean applyRaw(final ItemStack item, final int ticks) {
         Validate.notNull(item, "Item can not be null!");
-        return applyRaw(item, ticks, 0);
+        return this.applyRaw(item, ticks, 0);
     }
 
-    public Optional<ItemStack> asItem(Material potionItem, int ticks, int amplifier) {
+    public Optional<ItemStack> asItem(final Material potionItem, final int ticks, final int amplifier) {
         Validate.notNull(potionItem, "Material can not be null!");
-        if (!isPotion(potionItem)) throw new IllegalArgumentException("Material must be of potion type!");
+        if (!this.isPotion(potionItem))
+            throw new IllegalArgumentException("Material must be of potion type!");
 
-        ItemStack item = new ItemStack(potionItem);
-        if (!(item.getItemMeta() instanceof PotionMeta meta)) {
+        final ItemStack item = new ItemStack(potionItem);
+        if (!(item.getItemMeta() instanceof final PotionMeta meta)) {
             return Optional.empty();
         }
 
-        meta.addCustomEffect(new PotionEffect(type, ticks, amplifier), true);
+        meta.addCustomEffect(new PotionEffect(this.type, ticks, amplifier), true);
         item.setItemMeta(meta);
         return Optional.of(item);
     }
 
-    public boolean isPotion(Material material) {
+    public boolean isPotion(final Material material) {
         return switch (material) {
-            case POTION, SPLASH_POTION, LINGERING_POTION -> true;
-            default -> false;
+        case POTION, SPLASH_POTION, LINGERING_POTION -> true;
+        default -> false;
         };
     }
 
